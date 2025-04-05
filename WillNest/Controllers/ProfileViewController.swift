@@ -24,20 +24,24 @@ class ProfileViewController: UIViewController {
     var username = "Unknown"
     var userAge = 0
     var userGender = "Unknown"
-    var userWeight = 1
+    var userWeight = 0
     var userLocation = "Not available"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Configure profile image
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         profileImage.clipsToBounds = true
         profileImage.layer.borderWidth = 2
         profileImage.layer.borderColor = UIColor(named: "BrandGreen")?.cgColor
         
+        navigationItem.hidesBackButton = true
+        
         loadData()
     }
     
+    //MARK: - Load Data Functionality
     func loadData() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("No authenticated user")
@@ -73,7 +77,32 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-
+    
+    //MARK: - SignOut Functionality
+    @IBAction func signoutPressed(_ sender: UIBarButtonItem) {
+        do {
+                try Auth.auth().signOut()
+                
+                // Load WelcomeViewController from storyboard
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                if let welcomeVC = storyboard.instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController {
+                    
+                    // Embed it in a NavigationController (if it was originally)
+                    let navController = UINavigationController(rootViewController: welcomeVC)
+                    navController.navigationBar.isHidden = true
+                    
+                    // Set rootViewController
+                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                       let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                        sceneDelegate.window?.rootViewController = navController
+                        sceneDelegate.window?.makeKeyAndVisible()
+                    }
+                }
+                
+            } catch let signOutError as NSError {
+                print("Error signing out: %@", signOutError)
+            }
+    }
     
 }
 

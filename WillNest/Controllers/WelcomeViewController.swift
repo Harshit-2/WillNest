@@ -24,10 +24,6 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        
-        
         titleLabel.text = ""
         let titleText = "⚕️Will Nest"
         var counter = 0.0
@@ -39,7 +35,4 @@ class WelcomeViewController: UIViewController {
         }
         
     }
-    
-    
 }
-

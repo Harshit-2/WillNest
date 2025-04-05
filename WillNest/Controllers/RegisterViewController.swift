@@ -6,6 +6,7 @@
 //  Copyright © 2019 Angela Yu. All rights reserved.
 //
 
+import UIKit
 import FirebaseAuth
 
 class RegisterViewController: UIViewController {
@@ -16,24 +17,20 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Make the navigation bar's title with brandBlue text.
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-//        appearance.backgroundColor = UIColor(named: K.BrandColors.blue)
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        navigationItem.compactAppearance = appearance // For iPhone small navigation bar in landscape.
     }
     
     @IBAction func registerPressed(_ sender: UIButton) {
-        
         if let email = emailTextfield.text, let password = passwordTextfield.text {
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 if let e = error {
-                    print(e)
+                    print(e.localizedDescription)
                 } else {
-                    self.performSegue(withIdentifier: "registerToGetDiagnosis", sender: self)
+                    // ✅ Present Tab Bar Controller after successful registration
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    if let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController {
+                        tabBarVC.modalPresentationStyle = .fullScreen
+                        self.present(tabBarVC, animated: true, completion: nil)
+                    }
                 }
             }
         }

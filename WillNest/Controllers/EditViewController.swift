@@ -18,9 +18,9 @@ class EditViewController: UIViewController {
     @IBOutlet weak var weightPicker: UIPickerView!
     
     let db = Firestore.firestore()
-    var userAge = 1
-    var userGender = "Select"
-    var userWeight = 3
+    var userAge = 0
+    var userGender = "Not Selected"
+    var userWeight = 0
     var userCity: String = "Unknown"
     var weightArray: [Int] = []
     let locationManager = CLLocationManager()
@@ -60,76 +60,104 @@ class EditViewController: UIViewController {
     
     @IBAction func saveData(_ sender: UIButton) {
         guard let user = Auth.auth().currentUser else {
-            print("No authenticated user")
-            return
-        }
-        
-        let userID = user.uid  // Use Firebase Auth UID as document ID
-        
-        guard let userName = nameTextField.text, !userName.isEmpty else {
-            print("Name cannot be empty")
-            return
-        }
-        
-        let userRef = db.collection("userData").document(userID)  // Use UID-based document reference
-        
-        userRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                // If document exists, update it
-                userRef.updateData([
-                    "name": userName,
-                    "age": self.userAge,
-                    "gender": self.userGender,
-                    "weight": self.userWeight,
-                    "city": self.userCity
-                ]) { error in
-                    if let error = error {
-                        print("Error updating document: \(error.localizedDescription)")
-                    } else {
-                        DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "Done 😊", message: "Profile updated successfully!", preferredStyle: .alert)
-                            let action = UIAlertAction(title: "Great", style: .default) { _ in
-                                // Navigate back to ProfileViewController
-                                if let navigationController = self.navigationController {
-                                    navigationController.popViewController(animated: true)
-                                } else {
-                                    self.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                            alert.addAction(action)
-                            self.present(alert, animated: true, completion: nil)
-                        }                    }
-                }
-            } else {
-                // If document does not exist, create a new one
-                userRef.setData([
-                    "name": userName,
-                    "age": self.userAge,
-                    "gender": self.userGender,
-                    "weight": self.userWeight,
-                    "city": self.userCity
-                ]) { error in
-                    if let error = error {
-                        print("Error creating document: \(error.localizedDescription)")
-                    } else {
-                        DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "Done 😊", message: "Profile created successfully!", preferredStyle: .alert)
-                            let action = UIAlertAction(title: "Great", style: .default) { _ in
-                                // Navigate back to ProfileViewController
-                                if let navigationController = self.navigationController {
-                                    navigationController.popViewController(animated: true)
-                                } else {
-                                    self.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                            alert.addAction(action)
-                            self.present(alert, animated: true, completion: nil)
+                print("No authenticated user")
+                return
+            }
+
+            let userID = user.uid  // Use Firebase Auth UID as document ID
+
+            guard let userName = nameTextField.text, !userName.isEmpty else {
+                showAlert(title: "Missing Name", message: "Please enter your name.")
+                return
+            }
+
+            guard userAge > 0 else {
+                showAlert(title: "Invalid Age", message: "Please select your age.")
+                return
+            }
+
+            guard userGender != "Not Selected" else {
+                showAlert(title: "Gender Required", message: "Please select your gender.")
+                return
+            }
+
+            guard userWeight > 0 else {
+                showAlert(title: "Select Weight", message: "Please select your weight.")
+                return
+            }
+
+            guard userCity != "Unknown" else {
+                showAlert(title: "Location Missing", message: "Please fetch your location.")
+                return
+            }
+
+            let userRef = db.collection("userData").document(userID)  // UID-based document reference
+
+            let userData: [String: Any] = [
+                "name": userName,
+                "age": userAge,
+                "gender": userGender,
+                "weight": userWeight,
+                "city": userCity
+            ]
+
+            userRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    userRef.updateData(userData) { error in
+                        if let error = error {
+                            print("Error updating document: \(error.localizedDescription)")
+                        } else {
+                            self.showSuccessAlert(message: "Profile updated successfully!")
+                        }
+                    }
+                } else {
+                    userRef.setData(userData) { error in
+                        if let error = error {
+                            print("Error creating document: \(error.localizedDescription)")
+                        } else {
+                            self.showSuccessAlert(message: "Profile created successfully!")
                         }
                     }
                 }
             }
         }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let brandGreen = UIColor(named: "BrandGreen") ?? UIColor.systemGreen
+
+        let titleAttr = [NSAttributedString.Key.foregroundColor: brandGreen]
+        alert.setValue(NSAttributedString(string: title, attributes: titleAttr), forKey: "attributedTitle")
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        okAction.setValue(brandGreen, forKey: "titleTextColor")
+        alert.addAction(okAction)
+
+        present(alert, animated: true)
     }
+
+    func showSuccessAlert(message: String) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let brandGreen = UIColor(named: "BrandGreen") ?? UIColor.systemGreen
+
+        let titleAttr = [NSAttributedString.Key.foregroundColor: brandGreen]
+        alert.setValue(NSAttributedString(string: "Done 😊", attributes: titleAttr), forKey: "attributedTitle")
+
+        let action = UIAlertAction(title: "Great", style: .default) { _ in
+            if let navigationController = self.navigationController {
+                navigationController.popViewController(animated: true)
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+        action.setValue(brandGreen, forKey: "titleTextColor")
+        alert.addAction(action)
+
+        present(alert, animated: true)
+    }
+
+
     
 }
 

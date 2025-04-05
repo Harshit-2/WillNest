@@ -14,19 +14,21 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
     
-
     @IBAction func loginPressed(_ sender: UIButton) {
-        
         if let email = emailTextfield.text, let password = passwordTextfield.text {
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let e = error {
-                    print(e)
+                    print(e.localizedDescription)
+                    // Optionally show an alert here
                 } else {
-                    self.performSegue(withIdentifier: "loginToGetDiagnosis", sender: self)
+                    // Login successful, now present the tab bar controller
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    if let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController {
+                        tabBarVC.modalPresentationStyle = .fullScreen
+                        self.present(tabBarVC, animated: true, completion: nil)
+                    }
                 }
-              
             }
         }
     }
-    
 }
