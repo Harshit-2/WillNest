@@ -20,7 +20,7 @@ struct DiseaseModel {
         }
     }
     
-    func predictDisease(from symptomsArray: [String]) -> String? {
+    func predictTopDiseases(from symptomsArray: [String]) -> [Prediction] {
         let modelSymptoms: [String] = [
             "anxiety and nervousness", "depression", "shortness of breath",
             "depressive or psychotic symptoms", "sharp chest pain",
@@ -157,11 +157,11 @@ struct DiseaseModel {
         var symptomDict = [String: Int64]()
         
         for symptom in modelSymptoms {
-            symptomDict[symptom] = symptomsArray.contains(symptom) ? 1 : 0
+            symptomDict[symptom] = symptomsArray.contains(symptom.lowercased()) ? 1 : 0
         }
         
         do {
-            let modelInput = DiseaseSymptomPredictorInput(
+            let input = DiseaseSymptomPredictorInput(
                 anxiety_and_nervousness: symptomDict["anxiety and nervousness"] ?? 0,
                 depression: symptomDict["depression"] ?? 0,
                 shortness_of_breath: symptomDict["shortness of breath"] ?? 0,
@@ -541,11 +541,16 @@ struct DiseaseModel {
                 neck_weakness: symptomDict["neck weakness"] ?? 0
             )
             
-            let prediction = try model?.prediction(input: modelInput)
-            return prediction?.diseases
+            let prediction = try model?.prediction(input: input)
+            let probs = prediction?.diseasesProbability ?? [:]
+            let sorted = probs.sorted { $0.value > $1.value }
+            
+            return Array(sorted.prefix(5)).map { Prediction(disease: $0.key, confidence: $0.value) }
+            
         } catch {
-            print("Error making prediction: \(error)")
-            return nil
+            print("Prediction error: \(error)")
+            return []
         }
     }
 }
+

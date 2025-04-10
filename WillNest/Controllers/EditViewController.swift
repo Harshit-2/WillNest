@@ -12,10 +12,11 @@ import FirebaseFirestore
 
 class EditViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var ageTextField: UITextField!
+    @IBOutlet weak var ageTextArea: UITextView!
     @IBOutlet weak var maleSelected: UIButton!
     @IBOutlet weak var femaleSelected: UIButton!
     @IBOutlet weak var weightPicker: UIPickerView!
+    @IBOutlet weak var allergyTextArea: UITextView!
     
     let db = Firestore.firestore()
     var userAge = 0
@@ -32,7 +33,7 @@ class EditViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         weightPicker.dataSource = self
         weightPicker.delegate = self
-        ageTextField.text = "0"
+        ageTextArea.text = "0"
         
         for i in 1...130 {
             weightArray.append(i)
@@ -49,7 +50,7 @@ class EditViewController: UIViewController {
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
-        ageTextField.text = String(Int(sender.value))
+        ageTextArea.text = String(Int(sender.value))
         userAge = Int(sender.value)
         print(userAge)
     }
@@ -60,77 +61,80 @@ class EditViewController: UIViewController {
     
     @IBAction func saveData(_ sender: UIButton) {
         guard let user = Auth.auth().currentUser else {
-                print("No authenticated user")
-                return
-            }
+            print("No authenticated user")
+            return
+        }
 
-            let userID = user.uid  // Use Firebase Auth UID as document ID
+        let userID = user.uid
 
-            guard let userName = nameTextField.text, !userName.isEmpty else {
-                showAlert(title: "Missing Name", message: "Please enter your name.")
-                return
-            }
+        guard let userName = nameTextField.text, !userName.isEmpty else {
+            showAlert(title: "Missing Name", message: "Please enter your name.")
+            return
+        }
 
-            guard userAge > 0 else {
-                showAlert(title: "Invalid Age", message: "Please select your age.")
-                return
-            }
+        guard userAge > 0 else {
+            showAlert(title: "Invalid Age", message: "Please select your age.")
+            return
+        }
 
-            guard userGender != "Not Selected" else {
-                showAlert(title: "Gender Required", message: "Please select your gender.")
-                return
-            }
+        guard userGender != "Not Selected" else {
+            showAlert(title: "Gender Required", message: "Please select your gender.")
+            return
+        }
 
-            guard userWeight > 0 else {
-                showAlert(title: "Select Weight", message: "Please select your weight.")
-                return
-            }
+        guard userWeight > 0 else {
+            showAlert(title: "Select Weight", message: "Please select your weight.")
+            return
+        }
 
-            guard userCity != "Unknown" else {
-                showAlert(title: "Location Missing", message: "Please fetch your location.")
-                return
-            }
+        guard userCity != "Unknown" else {
+            showAlert(title: "Location Missing", message: "Please fetch your location.")
+            return
+        }
 
-            let userRef = db.collection("userData").document(userID)  // UID-based document reference
+        let allergies = allergyTextArea.text ?? ""
 
-            let userData: [String: Any] = [
-                "name": userName,
-                "age": userAge,
-                "gender": userGender,
-                "weight": userWeight,
-                "city": userCity
-            ]
+        let userRef = db.collection("userData").document(userID)
 
-            userRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    userRef.updateData(userData) { error in
-                        if let error = error {
-                            print("Error updating document: \(error.localizedDescription)")
-                        } else {
-                            self.showSuccessAlert(message: "Profile updated successfully!")
-                        }
+        let userData: [String: Any] = [
+            "name": userName,
+            "age": userAge,
+            "gender": userGender,
+            "weight": userWeight,
+            "city": userCity,
+            "allergies": allergies
+        ]
+
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                userRef.updateData(userData) { error in
+                    if let error = error {
+                        print("Error updating document: \(error.localizedDescription)")
+                    } else {
+                        self.showSuccessAlert(message: "Profile updated successfully!")
                     }
-                } else {
-                    userRef.setData(userData) { error in
-                        if let error = error {
-                            print("Error creating document: \(error.localizedDescription)")
-                        } else {
-                            self.showSuccessAlert(message: "Profile created successfully!")
-                        }
+                }
+            } else {
+                userRef.setData(userData) { error in
+                    if let error = error {
+                        print("Error creating document: \(error.localizedDescription)")
+                    } else {
+                        self.showSuccessAlert(message: "Profile created successfully!")
                     }
                 }
             }
         }
+    }
     
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        let brandGreen = UIColor(named: "BrandGreen") ?? UIColor.systemGreen
+        let brandBlue = UIColor(named: "BrandBlue") ?? UIColor.systemGreen
 
-        let titleAttr = [NSAttributedString.Key.foregroundColor: brandGreen]
+        let titleAttr = [NSAttributedString.Key.foregroundColor: brandBlue]
         alert.setValue(NSAttributedString(string: title, attributes: titleAttr), forKey: "attributedTitle")
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        okAction.setValue(brandGreen, forKey: "titleTextColor")
+        okAction.setValue(brandBlue, forKey: "titleTextColor")
         alert.addAction(okAction)
 
         present(alert, animated: true)
@@ -138,9 +142,9 @@ class EditViewController: UIViewController {
 
     func showSuccessAlert(message: String) {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        let brandGreen = UIColor(named: "BrandGreen") ?? UIColor.systemGreen
+        let brandBlue = UIColor(named: "BrandBlue") ?? UIColor.systemGreen
 
-        let titleAttr = [NSAttributedString.Key.foregroundColor: brandGreen]
+        let titleAttr = [NSAttributedString.Key.foregroundColor: brandBlue]
         alert.setValue(NSAttributedString(string: "Done 😊", attributes: titleAttr), forKey: "attributedTitle")
 
         let action = UIAlertAction(title: "Great", style: .default) { _ in
@@ -151,7 +155,7 @@ class EditViewController: UIViewController {
             }
         }
         
-        action.setValue(brandGreen, forKey: "titleTextColor")
+        action.setValue(brandBlue, forKey: "titleTextColor")
         alert.addAction(action)
 
         present(alert, animated: true)

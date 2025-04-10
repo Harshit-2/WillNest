@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var displayAge: UILabel!
     @IBOutlet weak var displayGender: UILabel!
     @IBOutlet weak var displayWeight: UILabel!
+    @IBOutlet weak var displayAllergy: UILabel!
     @IBOutlet weak var displayLocation: UILabel!
     
     let db = Firestore.firestore()
@@ -34,7 +35,7 @@ class ProfileViewController: UIViewController {
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         profileImage.clipsToBounds = true
         profileImage.layer.borderWidth = 2
-        profileImage.layer.borderColor = UIColor(named: "BrandGreen")?.cgColor
+        profileImage.layer.borderColor = UIColor(named: "BrandBlue")?.cgColor
         
         navigationItem.hidesBackButton = true
         
@@ -66,17 +67,24 @@ class ProfileViewController: UIViewController {
                let gender = data?["gender"] as? String,
                let weight = data?["weight"] as? Int,
                let location = data?["city"] as? String {
-                
+
                 self.displayName.text = name
-                self.displayAge.text = String(age)
+                self.displayAge.text = "\(age)"
                 self.displayGender.text = gender
-                self.displayWeight.text = "\(String(weight)) Kg"
+                self.displayWeight.text = "\(weight) Kg"
                 self.displayLocation.text = location
                 self.dsplayUserId.text = userId
                 self.displayEmail.text = Auth.auth().currentUser?.email
             }
+            
+            if let allergies = data?["allergies"] as? String, !allergies.isEmpty {
+                self.displayAllergy.text = allergies
+            } else {
+                self.displayAllergy.text = "No known allergies"
+            }
         }
     }
+
     
     //MARK: - SignOut Functionality
     @IBAction func signoutPressed(_ sender: UIBarButtonItem) {

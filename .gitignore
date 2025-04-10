@@ -90,3 +90,7 @@ fastlane/test_output
 
 iOSInjectionProject/
 .swiftpm
+
+# API's
+Secrets.swift
+GoogleService-Info.plist

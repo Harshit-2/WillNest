@@ -1194,6 +1194,8 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.37):
     - BoringSSL-GRPC/Interface (= 0.0.37)
   - BoringSSL-GRPC/Interface (0.0.37)
+  - Cards (1.4.0):
+    - Player (= 0.13.0)
   - FirebaseAppCheckInterop (11.10.0)
   - FirebaseAuth (11.10.0):
     - FirebaseAppCheckInterop (~> 11.0)
@@ -1394,6 +1396,7 @@ PODS:
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
+  - Player (0.13.0)
   - Realm (20.0.1):
     - Realm/Headers (= 20.0.1)
   - Realm/Headers (20.0.1)
@@ -1402,6 +1405,7 @@ PODS:
   - RecaptchaInterop (101.0.0)
 
 DEPENDENCIES:
+  - Cards
   - FirebaseAuth (~> 11.10)
   - FirebaseFirestore (~> 11.10)
   - IQKeyboardManagerSwift (~> 8.0)
@@ -1411,6 +1415,7 @@ SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
+    - Cards
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseAuthInterop
@@ -1434,6 +1439,7 @@ SPEC REPOS:
     - IQTextView
     - leveldb-library
     - nanopb
+    - Player
     - Realm
     - RealmSwift
     - RecaptchaInterop
@@ -1441,6 +1447,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
+  Cards: 45ae6bd0eca7b5e8016d3b6cb30b60b04753f68f
   FirebaseAppCheckInterop: 9664c858489710f682766ef54e2b6741d3b62070
   FirebaseAuth: c4146bdfdc87329f9962babd24dae89373f49a32
   FirebaseAuthInterop: 01a804fb074424fd58b92dd50dd0272277199356
@@ -1464,10 +1471,11 @@ SPEC CHECKSUMS:
   IQTextView: ae13b4922f22e6f027f62c557d9f4f236b19d5c7
   leveldb-library: cc8b8f8e013647a295ad3f8cd2ddf49a6f19be19
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  Player: 968d8d07d923bcdd6f7e4091c9e306eb44a5f7a4
   Realm: 9572204903ef28caeb3c03bb30c1147f354ee3e7
   RealmSwift: d230b44017a55a1ba97de6a944da1fe3bedb92b5
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
 
-PODFILE CHECKSUM: 33ac49c29e49dad605e16d6da0dd084257e13970
+PODFILE CHECKSUM: 779fbf3ca5ff3c4d2d3539ad46d0803b8a4e46cb
 
 COCOAPODS: 1.16.2

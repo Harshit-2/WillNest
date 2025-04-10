@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RealmSwift
 import FirebaseCore
 import FirebaseAuth
 import IQKeyboardManagerSwift
