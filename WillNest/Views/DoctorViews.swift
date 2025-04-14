@@ -249,8 +249,6 @@ class DoctorCell: UITableViewCell {
         locationLabel.text = doctor.location
         ratingLabel.text = String(format: "%.1f", doctor.rating)
         
-        // In a real app, you would load the image from a URL
-        // For now, we'll use a system image as a placeholder
         doctorImageView.image = UIImage(systemName: "person.circle.fill")
         doctorImageView.tintColor = .systemGray
     }

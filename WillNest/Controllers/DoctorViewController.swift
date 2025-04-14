@@ -63,8 +63,8 @@ class DoctorViewController: UIViewController {
             DoctorCategory(id: "neuro", title: "Neurologist", icon: "brain.head.profile", description: "Brain and nervous system specialists", color: UIColor.systemPurple.withAlphaComponent(0.8)),
             DoctorCategory(id: "onco", title: "Oncologist", icon: "cross.case.fill", description: "Cancer specialists for diagnosis and treatment", color: UIColor.systemBlue.withAlphaComponent(0.8)),
             DoctorCategory(id: "fm", title: "Family Medicine", icon: "person.2.fill", description: "General healthcare for individuals and families", color: UIColor.systemTeal.withAlphaComponent(0.8)),
-            DoctorCategory(id: "gastro", title: "Gastroenterologist", icon: "stomach", description: "Digestive system specialists", color: UIColor.systemOrange.withAlphaComponent(0.8)),
-            DoctorCategory(id: "obgyn", title: "Obstetrics and Gynaecology", icon: "figure.dress", description: "Women's health and pregnancy specialists", color: UIColor.systemPink.withAlphaComponent(0.8)),
+            DoctorCategory(id: "gastro", title: "Gastroenterologist", icon: "pill.fill", description: "Digestive system specialists", color: UIColor.systemOrange.withAlphaComponent(0.8)),
+            DoctorCategory(id: "obgyn", title: "Obstetrics and Gynaecology", icon: "person.fill", description: "Women's health and pregnancy specialists", color: UIColor.systemPink.withAlphaComponent(0.8)),
             DoctorCategory(id: "ophth", title: "Ophthalmologist", icon: "eye.fill", description: "Eye care and vision specialists", color: UIColor.systemIndigo.withAlphaComponent(0.8)),
             DoctorCategory(id: "psych", title: "Psychiatrist", icon: "brain", description: "Mental health specialists", color: UIColor.systemYellow.withAlphaComponent(0.8)),
             DoctorCategory(id: "endo", title: "Endocrinologist", icon: "flowchart", description: "Hormone and metabolism specialists", color: UIColor.systemBrown.withAlphaComponent(0.8)),
@@ -77,9 +77,9 @@ class DoctorViewController: UIViewController {
             DoctorCategory(id: "infect", title: "Infectious Disease Physician", icon: "binoculars.fill", description: "Infection and communicable disease specialists", color: UIColor.systemGreen.withAlphaComponent(0.7)),
             DoctorCategory(id: "surg", title: "Surgeon", icon: "scissors", description: "Surgical procedure specialists", color: UIColor.systemBlue.withAlphaComponent(0.7)),
             DoctorCategory(id: "im", title: "Internal Medicine", icon: "heart.text.square.fill", description: "Adult disease diagnosis and treatment specialists", color: UIColor.systemPurple.withAlphaComponent(0.7)),
-            DoctorCategory(id: "neph", title: "Nephrologist", icon: "kidney", description: "Kidney specialists", color: UIColor.systemOrange.withAlphaComponent(0.7)),
+            DoctorCategory(id: "neph", title: "Nephrologist", icon: "waveform.circle.fill", description: "Kidney specialists", color: UIColor.systemOrange.withAlphaComponent(0.7)),
             DoctorCategory(id: "ortho", title: "Orthopaedist", icon: "figure.walk.motion", description: "Bone, joint, and muscle specialists", color: UIColor.systemTeal.withAlphaComponent(0.7)),
-            DoctorCategory(id: "path", title: "Pathologist", icon: "microscope.fill", description: "Disease diagnosis specialists", color: UIColor.systemGray2.withAlphaComponent(0.8)),
+            DoctorCategory(id: "path", title: "Pathologist", icon: "magnifyingglass", description: "Disease diagnosis specialists", color: UIColor.systemGray2.withAlphaComponent(0.8)),
             DoctorCategory(id: "allergy", title: "Allergist", icon: "wind", description: "Allergy and immunology specialists", color: UIColor.systemYellow.withAlphaComponent(0.7))
         ]
     }
