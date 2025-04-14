@@ -384,4 +384,3 @@ class TimeSlotCell: UICollectionViewCell {
         timeLabel.text = time
     }
 }
-
