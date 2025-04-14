@@ -104,41 +104,44 @@ class PrescriptionViewController: UIViewController {
     }
     
     func saveDataInFirestore() {
-            guard let user = Auth.auth().currentUser else {
-                print("No user is signed in.")
-                return
-            }
-            
-            let prescriptions = [
-                Prescription(value: ["drugName": "Amoxicillin", "dosage": "1 Morning, 1 Night", "days": 3]),
-                Prescription(value: ["drugName": "Ciprofloxacin", "dosage": "1 Morning, 1 Evening", "days": 3]),
-                Prescription(value: ["drugName": "Azithromycin", "dosage": "1 Evening, 1 Night", "days": 2]),
-                Prescription(value: ["drugName": "Omeprazole", "dosage": "1 Morning", "days": 4]),
-                Prescription(value: ["drugName": "Penicillin", "dosage": "1 Morning, 1 Afternoon", "days": 1]),
-                Prescription(value: ["drugName": "Ibuprofen", "dosage": "1 Evening, 1 Night", "days": 3]),
-                Prescription(value: ["drugName": "Naproxen", "dosage": "1 Afternoon, 1 Night", "days": 2]),
-                Prescription(value: ["drugName": "Diclofenac", "dosage": "1 Morning, 1 Night", "days": 2]),
-                Prescription(value: ["drugName": "Metformin", "dosage": "1 Noon", "days": 5]),
+        guard let user = Auth.auth().currentUser else {
+            print("No user is signed in.")
+            return
+        }
+        
+        let prescriptions = [
+            Prescription(value: ["drugName": "Amoxicillin", "dosage": "1 Morning, 1 Night", "days": 3]),
+            Prescription(value: ["drugName": "Ciprofloxacin", "dosage": "1 Morning, 1 Evening", "days": 3]),
+            Prescription(value: ["drugName": "Azithromycin", "dosage": "1 Evening, 1 Night", "days": 2]),
+            Prescription(value: ["drugName": "Omeprazole", "dosage": "1 Morning", "days": 4]),
+            Prescription(value: ["drugName": "Penicillin", "dosage": "1 Morning, 1 Afternoon", "days": 1]),
+            Prescription(value: ["drugName": "Ibuprofen", "dosage": "1 Evening, 1 Night", "days": 3]),
+            Prescription(value: ["drugName": "Naproxen", "dosage": "1 Afternoon, 1 Night", "days": 2]),
+            Prescription(value: ["drugName": "Diclofenac", "dosage": "1 Morning, 1 Night", "days": 2]),
+            Prescription(value: ["drugName": "Metformin", "dosage": "1 Noon", "days": 5]),
+        ]
+        
+        for prescription in prescriptions {
+            let data: [String: Any] = [
+                "drugName": prescription.drugName,
+                "dosage": prescription.dosage,
+                "days": prescription.days,
+                "timestamp": Timestamp()
             ]
             
-            for prescription in prescriptions {
-                let data: [String: Any] = [
-                    "userId": user.uid,
-                    "drugName": prescription.drugName,
-                    "dosage": prescription.dosage,
-                    "days": prescription.days,
-                    "timestamp": Timestamp()
-                ]
-                
-                db.collection("prescription").addDocument(data: data) { error in
+            // Save data to the "userData" collection for the current signed-in user under "prescriptions" subcollection
+            db.collection("userData")
+                .document(user.uid)
+                .collection("prescriptions")
+                .addDocument(data: data) { error in
                     if let error = error {
                         print("Error adding prescription: \(error.localizedDescription)")
                     } else {
                         print("Prescription added successfully!")
                     }
                 }
-            }
         }
+    }
     
     func loadPrescriptions() {
         guard let user = Auth.auth().currentUser else {
@@ -146,9 +149,11 @@ class PrescriptionViewController: UIViewController {
             return
         }
         
-        db.collection("prescription")
-            .whereField("userId", isEqualTo: user.uid)
-            .getDocuments { (querySnapshot, error) in
+        db.collection("userData")
+            .document(user.uid)
+            .collection("prescriptions")
+            .order(by: "timestamp", descending: true) // Optional: order by timestamp
+            .addSnapshotListener { (querySnapshot, error) in
                 if let error = error {
                     print("Error retrieving prescriptions: \(error.localizedDescription)")
                     return
@@ -173,6 +178,8 @@ class PrescriptionViewController: UIViewController {
                 }
             }
     }
+
+
     
     // Helper function to get the appropriate colors based on the number of days
     func getDayColors(_ days: Int) -> (color: UIColor, background: UIColor) {
