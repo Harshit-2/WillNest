@@ -9,7 +9,7 @@ target 'WillNest' do
 #  pod 'Alamofire', '~> 5.10'
 #  pod 'SwiftyJSON', '~> 5.0'
   pod 'Cards'
-  pod 'RealmSwift', '~> 20.0'
+#  pod 'RealmSwift', '~> 20.0'
 #  pod 'SDWebImage', '~> 5.21'
   pod 'FirebaseAuth', '~> 11.10'
   pod 'FirebaseFirestore', '~> 11.10'

@@ -3,7 +3,7 @@
 //  WillNest
 //
 //  Created by Harshit ‎ on 3/29/25.
-//
+
 
 import UIKit
 import FirebaseCore
@@ -43,3 +43,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 // Optional(file:///Users/harshit/Library/Developer/CoreSimulator/Devices/08EFED1D-7E7A-4218-961D-C61090E1EC78/data/Containers/Data/Application/886FE96F-26D3-4838-B4A7-3424E25D786B/Documents/default.realm)
+
+//import UIKit
+//import FirebaseCore
+//import FirebaseAuth
+//import IQKeyboardManagerSwift
+//
+//@main
+//class AppDelegate: UIResponder, UIApplicationDelegate {
+//
+//    var window: UIWindow?
+//
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//        
+//        FirebaseApp.configure()
+//        
+//        IQKeyboardManager.shared.isEnabled = true
+//        IQKeyboardManager.shared.enableAutoToolbar = false
+//        IQKeyboardManager.shared.resignOnTouchOutside = true
+//        
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        return true
+//    }
+//
+//    // MARK: UISceneSession Lifecycle
+//
+//    @available(iOS 13.0, *)
+//    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+//        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+//    }
+//
+//    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+//        // Called when the user discards a scene session.
+//    }
+//}

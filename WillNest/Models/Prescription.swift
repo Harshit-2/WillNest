@@ -6,10 +6,21 @@
 //
 
 import Foundation
-import RealmSwift
 
-class Prescription: Object {
-    @objc dynamic var drugName: String = ""
-    @objc dynamic var dosage: String = ""
-    @objc dynamic var days: Int = 0
+struct Prescription {
+    let drugName: String
+    let dosage: String
+    let days: Int
+
+    init(drugName: String, dosage: String, days: Int) {
+        self.drugName = drugName
+        self.dosage = dosage
+        self.days = days
+    }
+
+    init(value: [String: Any]) {
+        self.drugName = value["drugName"] as? String ?? ""
+        self.dosage = value["dosage"] as? String ?? ""
+        self.days = value["days"] as? Int ?? 0
+    }
 }
