@@ -32,6 +32,10 @@ class DoctorCategoryCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = .white
+        label.numberOfLines = 0                   // Allow multiple lines
+        label.lineBreakMode = .byWordWrapping     // Wrap text at word boundaries
+        label.adjustsFontSizeToFitWidth = true      // Optionally shrink text if needed
+        label.minimumScaleFactor = 0.8            // Minimum font scale
         return label
     }()
     
@@ -40,7 +44,7 @@ class DoctorCategoryCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .white
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         return label
     }()
     

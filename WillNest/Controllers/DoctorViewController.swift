@@ -103,6 +103,7 @@ class DoctorViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
     }
     
     private func setupCollectionView() {
@@ -141,7 +142,7 @@ extension DoctorViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.bounds.width - 60) / 2 // Two columns with spacing
-        return CGSize(width: width, height: 150)
+        return CGSize(width: width, height: 182)    // earlier it was 150
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -158,4 +158,3 @@ extension DoctorListViewController: UITableViewDataSource, UITableViewDelegate {
         navigationController?.pushViewController(doctorDetailVC, animated: true)
     }
 }
-

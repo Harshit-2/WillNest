@@ -303,7 +303,8 @@ class InfoRowView: UIView {
     
     init(title: String, icon: String) {
         super.init(frame: .zero)
-        
+        translatesAutoresizingMaskIntoConstraints = false
+
         titleLabel.text = title
         iconImageView.image = UIImage(systemName: icon)
         
