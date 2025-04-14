@@ -34,6 +34,12 @@ class EditViewController: UIViewController {
         weightPicker.dataSource = self
         weightPicker.delegate = self
         ageTextArea.text = "0"
+        allergyTextArea.layer.borderWidth = 1
+        allergyTextArea.layer.borderColor = UIColor.gray.cgColor
+        allergyTextArea.layer.cornerRadius = 5
+        nameTextField.layer.borderWidth = 1
+        nameTextField.layer.borderColor = UIColor.gray.cgColor
+        nameTextField.layer.cornerRadius = 5
         
         for i in 1...130 {
             weightArray.append(i)
