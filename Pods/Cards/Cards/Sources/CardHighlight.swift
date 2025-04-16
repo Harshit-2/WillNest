@@ -116,6 +116,7 @@ import UIKit
   
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
+        let softBlack = UIColor(white: 0.3, alpha: 1)
         
         //Draw
         bgIconIV.image = icon
@@ -126,7 +127,8 @@ import UIKit
         iconIV.clipsToBounds = true
         
         titleLbl.text = title.uppercased()
-        titleLbl.textColor = textColor
+//        titleLbl.textColor = textColor
+        titleLbl.textColor = softBlack
         titleLbl.font = UIFont.systemFont(ofSize: titleSize, weight: .heavy)
         titleLbl.adjustsFontSizeToFitWidth = true
         titleLbl.lineHeight(0.70)
@@ -135,7 +137,8 @@ import UIKit
         titleLbl.numberOfLines = 3
         backgroundIV.bringSubviewToFront(titleLbl)
         
-        itemTitleLbl.textColor = textColor
+//        itemTitleLbl.textColor = textColor
+        itemTitleLbl.textColor = softBlack
         itemTitleLbl.text = itemTitle
         itemTitleLbl.font = UIFont.boldSystemFont(ofSize: itemTitleSize)
         itemTitleLbl.adjustsFontSizeToFitWidth = true
@@ -143,7 +146,8 @@ import UIKit
         itemTitleLbl.lineBreakMode = .byTruncatingTail
         itemTitleLbl.numberOfLines = 0
 
-        itemSubtitleLbl.textColor = textColor
+//        itemSubtitleLbl.textColor = textColor
+        itemSubtitleLbl.textColor = softBlack
         itemSubtitleLbl.text = itemSubtitle
         itemSubtitleLbl.font = UIFont.systemFont(ofSize: itemSubtitleSize)
         itemSubtitleLbl.adjustsFontSizeToFitWidth = true
